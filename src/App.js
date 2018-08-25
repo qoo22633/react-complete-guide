@@ -27,7 +27,9 @@ class App extends Component {
   }
 
   deleteNameHandler = (personIndex) => {
-    const persons = this.state.persons;
+    // slice()でpersonsをコピーする。
+    // そうすることで、元のpersonsを傷つけることなくこの後のspliceすることができる
+    const persons = this.state.persons.slice();
     persons.splice(personIndex, 1);
     this.setState({persons: persons});
   }
