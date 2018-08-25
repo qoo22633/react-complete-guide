@@ -26,15 +26,10 @@ class App extends Component {
      } )
   }
 
-  // ボタンを押した時のイベント
-  switchNameHandler = (newName) => {
-    this.setState( {
-      persons: [
-        { name: newName, age: 28 },
-        { name: 'Manu', age: 19 },
-        { name: 'hoge', age: 26 },
-      ]
-     } )
+  deleteNameHandler = (personIndex) => {
+    const persons = this.state.persons;
+    persons.splice(personIndex, 1);
+    this.setState({persons: persons});
   }
 
   // 表示する
@@ -58,8 +53,11 @@ class App extends Component {
       
       persons = (
         <div>
-          {this.state.persons.map(person => {
-            return <Person name={person.name} age={person.age} />
+          {this.state.persons.map((person, index) => {
+            return <Person 
+              click={() => this.deleteNameHandler(index)}
+              name={person.name}
+              age={person.age} />
           })}
         </div>
       );
