@@ -7,9 +7,9 @@ class App extends Component {
   // 初期値
   state = {
     persons: [
-      { name: 'Max', age: 28 },
-      { name: 'Taro', age: 19 },
-      { name: 'hoge', age: 26 },
+      { id: 1, name: 'Max', age: 28 },
+      { id: 2, name: 'Taro', age: 19 },
+      { id: 3, name: 'hoge', age: 26 },
     ],
     otherState: 'some other value',
     showPersons: false
@@ -59,7 +59,8 @@ class App extends Component {
             return <Person 
               click={() => this.deleteNameHandler(index)}
               name={person.name}
-              age={person.age} />
+              age={person.age}
+              key={person.id} />
           })}
         </div>
       );
