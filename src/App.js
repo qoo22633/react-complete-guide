@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person';
+import Radium from 'radium';
 
 class App extends Component {
 
@@ -49,7 +50,8 @@ class App extends Component {
 
   render() {
     const style = {
-      backgroundColor: 'White',
+      backgroundColor: 'green',
+      color: 'white',
       font: 'inherit',
       border: '1px solid blue',
       padding: '8px',
@@ -72,11 +74,23 @@ class App extends Component {
           })}
         </div>
       );
+
+      style.backgroundColor = 'red';
+    }
+
+    // 動的なクラスの生成
+    const classes = [];
+    if (this.state.persons.length <= 2) {
+      classes.push('red')
+    }
+    if (this.state.persons.length <= 1) {
+      classes.push('bold')
     }
 
     return (
         <div className="App">
-          <h1>hi, i'm a react app </h1>
+          <h1>Hi, I'm a React app </h1>
+          <p className={classes.join(' ')}>This is realry working!</p>
           <button
           style={style}
           onClick={this.togglePersonsHandler}>switch name</button>
@@ -86,4 +100,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Radium(App);
