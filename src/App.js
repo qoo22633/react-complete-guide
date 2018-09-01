@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person';
-import Radium from 'radium';
+import Radium, { StyleRoot } from 'radium';
 
 class App extends Component {
 
@@ -55,7 +55,11 @@ class App extends Component {
       font: 'inherit',
       border: '1px solid blue',
       padding: '8px',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      ':hover': {
+        backgroundColor: 'lightgreen',
+        color: 'black'
+      }
     };
 
     let persons = null;
@@ -63,19 +67,25 @@ class App extends Component {
     if ( this.state.showPersons ) {
       
       persons = (
-        <div>
-          {this.state.persons.map((person, index) => {
-            return <Person 
-              click={() => this.deleteNameHandler(index)}
-              name={person.name}
-              age={person.age}
-              key={person.id} 
-              changed={(event) => this.nameChangeHandler(event, person.id)}/>
-          })}
-        </div>
+        <StyleRoot>
+          <div>
+            {this.state.persons.map((person, index) => {
+              return <Person 
+                click={() => this.deleteNameHandler(index)}
+                name={person.name}
+                age={person.age}
+                key={person.id} 
+                changed={(event) => this.nameChangeHandler(event, person.id)}/>
+            })}
+          </div>
+        </StyleRoot>
       );
 
       style.backgroundColor = 'red';
+      style[':hover'] = {
+        backgroundColor: 'salmon',
+        color: 'black'
+      }
     }
 
     // 動的なクラスの生成
