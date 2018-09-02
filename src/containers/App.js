@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import classes from './App.css';
-import Person from '../components/Persons/Person/Person';
-import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
+import Persons from '../components/Persons/Persons';
+import Cockpit from '../components/Cockpit/Cockpit'
 
 class App extends Component {
 
@@ -16,24 +16,27 @@ class App extends Component {
     showPersons: false
   }
 
-  // テキストから受け取った値で変更する
+  /**
+   * 名前の書き換えメソッド
+   */
   nameChangeHandler = (event, id) => {
     const personIndex = this.state.persons.findIndex(p => {
       return p.id === id;
     });
-
     const person = {
       ...this.state.persons[personIndex]
     }
 
     person.name = event.target.value;
-
     const persons = [...this.state.persons];
     persons[personIndex] = person;
 
     this.setState( {persons: persons} )
   }
 
+  /**
+   * 指定したpersonを削除するメソッド
+   */
   deleteNameHandler = (personIndex) => {
     // slice()でpersonsをコピーする。
     // そうすることで、元のpersonsを傷つけることなくこの後のspliceすることができる
@@ -42,7 +45,9 @@ class App extends Component {
     this.setState({persons: persons});
   }
 
-  // 表示する
+  /**
+   * ボタンを押した時に、フラグを切り替えるメソッド
+   */
   togglePersonsHandler =() => {
     const doseShow = this.state.showPersons;
     this.setState({ showPersons: !doseShow })
@@ -50,44 +55,24 @@ class App extends Component {
 
   render() {
     let persons = null;
-    let btnClass = '';
 
+    // フラグによってpersonsを表示するか制御する
     if ( this.state.showPersons ) {
-      
       persons = (
-        <div>
-          {this.state.persons.map((person, index) => {
-            return <ErrorBoundary key={person.id} >
-              <Person 
-              click={() => this.deleteNameHandler(index)}
-              name={person.name}
-              age={person.age}
-              
-              changed={(event) => this.nameChangeHandler(event, person.id)}/>
-              </ErrorBoundary>
-          })}
-        </div>
+          <Persons
+            persons={this.state.persons}
+            clicked={this.deleteNameHandler}
+            changed={this.nameChangeHandler}/>
       );
-
-      btnClass = classes.Red;
-    }
-
-    // 動的なクラスの生成
-    const assignedClasses = [];
-    if (this.state.persons.length <= 2) {
-      assignedClasses.push(classes.red)
-    }
-    if (this.state.persons.length <= 1) {
-      assignedClasses.push(classes.bold)
     }
 
     return (
         <div className={classes.App}>
-          <h1>Hi, I'm a React app </h1>
-          <p className={assignedClasses.join(' ')}>This is realry working!</p>
-          <button
-          className={btnClass}
-          onClick={this.togglePersonsHandler}>switch name</button>
+          <Cockpit
+            showPersons={this.state.showPersons}
+            persons={this.state.persons}
+            clicked={this.togglePersonsHandler}
+            />
           {persons}
         </div>
     );
